@@ -42,7 +42,7 @@ bool Config::Reload()
     if (in.fail())
         return false;
 
-    std::unordered_map<std::string, std::string> newEntries;
+    std::map<std::string, std::string> newEntries;
     std::lock_guard<std::mutex> guard(m_configLock);
 
     do
@@ -64,8 +64,7 @@ bool Config::Reload()
 
         auto const entry = boost::algorithm::trim_copy(boost::algorithm::to_lower_copy(line.substr(0, equals)));
         auto const value = boost::algorithm::trim_copy_if(boost::algorithm::trim_copy(line.substr(equals + 1)), boost::algorithm::is_any_of("\""));
-
-        newEntries[entry] = value;
+		newEntries[entry] = value;
     }
     while (in.good());
 
